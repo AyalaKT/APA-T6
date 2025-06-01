@@ -1,44 +1,33 @@
 class Alumno:
     """
-    Clase usada para el tratamiento de las notas de los alumnos. Cada uno
-    incluye los atributos siguientes:
+    Clase para gestionar la información académica de un alumno.
 
-    numIden:   Número de identificación. Es un número entero que, en caso
-               de no indicarse, toma el valor por defecto 'numIden=-1'.
-    nombre:    Nombre completo del alumno.
-    notas:     Lista de números reales con las distintas notas de cada alumno.
+    Atributos:
+    - numIden:   Número de identificación (entero). Por defecto -1.
+    - nombre:    Nombre completo del alumno (cadena).
+    - notas:     Lista de notas (números reales).
     """
 
-    def __init__(self, nombre, numIden=-1, notas=[]):
+    def __init__(self, nombre, numIden=-1, notas=None):
         self.numIden = numIden
         self.nombre = nombre
-        self.notas = [nota for nota in notas]
+        self.notas = list(notas) if notas else []
 
-    def __add__(self, other):
+    def __add__(self, nota):
         """
-        Devuelve un nuevo objeto 'Alumno' con una lista de notas ampliada con
-        el valor pasado como argumento. De este modo, añadir una nota a un
-        Alumno se realiza con la orden 'alumno += nota'.
+        Permite añadir una nota usando '+'. Retorna un nuevo Alumno con la nota añadida.
+        Ejemplo: alumno = alumno + 7.5
         """
-        return Alumno(self.nombre, self.numIden, self.notas + [other])
+        return Alumno(self.nombre, self.numIden, self.notas + [nota])
 
     def media(self):
-        """
-        Devuelve la nota media del alumno.
-        """
-        return sum(self.notas) / len(self.notas) if self.notas else 0
+        """Calcula y devuelve la nota media del alumno."""
+        return sum(self.notas) / len(self.notas) if self.notas else 0.0
 
     def __repr__(self):
-        """
-        Devuelve la representación 'oficial' del alumno. A partir de copia
-        y pega de la cadena obtenida es posible crear un nuevo Alumno idéntico.
-        """
-        return f'Alumno("{self.nombre}", {self.numIden!r}, {self.notas!r})'
+        """Devuelve una representación oficial reproducible del objeto Alumno."""
+        return f'Alumno("{self.nombre}", {self.numIden}, {self.notas})'
 
     def __str__(self):
-        """
-        Devuelve la representación 'bonita' del alumno. Visualiza en tres
-        columnas separas por tabulador el número de identificación, el nombre
-        completo y la nota media del alumno con un decimal.
-        """
+        """Devuelve una representación legible del alumno: ID, nombre y media."""
         return f'{self.numIden}\t{self.nombre}\t{self.media():.1f}'
